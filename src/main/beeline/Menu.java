@@ -33,14 +33,13 @@ public class Menu {
 
     public static void mainMenuRunning(Client client, Menu menu) {
         Scanner scanner = new Scanner(System.in);
-        printMenu(menu);
         String answer = scanner.nextLine();
         switch (answer) {
             case "1" -> printBalanceInfo(client, client.getComparePhrase());
             case "2" -> printInternetInfo(client);
             case "3" -> specialOffers(client, menu);
-            case "*", "#", "9" -> {
-            }
+            case "*", "#", "9" -> printMenu(menu);
+
         }
     }
 
@@ -93,19 +92,15 @@ public class Menu {
 
     public static void specialOffers(Client client, Menu menu) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println(menu.getSpecialOffers());
         while (true) {
-            System.out.println(menu.getSpecialOffers());
             String answer = scanner.nextLine();
             switch (answer) {
                 case "1" -> System.out.println("Успейте подключить до 1 июня и получите безлимитный интернет.\n");
                 case "2" -> System.out.println("Получите скидку 50% на Абонентскую плату на 3 месяца.\n");
-                case "9" -> {
-                    return;
-                }
-                case "#" -> {
-                }
-                case "*" -> {
-                    mainMenuRunning(client, menu);
+                case "#" -> System.out.println(menu.getSpecialOffers());
+                case "*", "9" -> {
+                    printMenu(menu);
                     return;
                 }
                 default -> System.out.println("Неверный ввод, попробуйте еще раз.");
@@ -133,6 +128,7 @@ public class Menu {
             Menu menu = gson.fromJson(new BufferedReader(new FileReader("src/main/beeline/json.json")), Menu.class);
             Client client = menu.getClient();
             greeting(client);
+            printMenu(menu);
             while (true) {
                 mainMenuRunning(client, menu);
             }
